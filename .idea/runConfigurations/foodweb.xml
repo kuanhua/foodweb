@@ -1,14 +1,14 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="foodweb" type="Python.DjangoServer" factoryName="Django server">
+  <configuration default="false" name="foodweb" type="Python.DjangoServer" factoryName="Django server" show_console_on_std_out="true" show_console_on_std_err="true">
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
-      <env name="DJANGO_SETTINGS_MODULE" value="foodweb.settings" />
       <env name="PYTHONUNBUFFERED" value="1" />
+      <env name="DJANGO_SETTINGS_MODULE" value="foodweb.settings" />
     </envs>
-    <option name="SDK_HOME" value="C:\Python27\python.exe" />
+    <option name="SDK_HOME" value="" />
     <option name="WORKING_DIRECTORY" value="" />
-    <option name="IS_MODULE_SDK" value="false" />
+    <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <module name="foodweb" />
