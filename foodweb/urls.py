@@ -20,5 +20,5 @@ from restaurants.views import menu
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^menu/$', menu),
+    url(r'^menu/', menu),
 ]
