@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Menu</title>
+    <title>Restaurants</title>
     # bootstrap -----
     <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <style>
         th { text-align: center; }
-        div.menus {
+        div.restaurants {
             text-align: center;
             padding: 40px 15px;
         }
@@ -40,31 +40,31 @@
     </nav>
     # ---------------
     <div class="container">
-        <div class="menus">
-        <p> 您現在的位置在 {{ path }}</p>
-            <h2>{{ restaurant.name }}的 Menu</h2>
-            {% if restaurant.food_set.all %}
-                <p>本餐廳共有 {{ restaurant.food_set.all|length }}道菜</p>
+        <div class="restaurants">
+            <h2>餐廳列表</h2>
+            <!--方法23不要此行--> <form action="/menu/" method="get">
                 <table class="table">
                     <tr>
-                        <th>菜名</th>
-                        <th>價格</th>
-                        <th>辣不辣</th>
-                        <th>註解</th>
+                        <th>選取</th>
+                        <th>店名</th>
+                        <th>電話</th>
+                        <th>地址</th>
+                        <th>評價</th>
                     </tr>
-                    {% for food in restaurant.food_set.all %}
+                    {% for r in restaurants %}
                         <tr>
-                            <td>{{ food.name }}</td>
-                            <td>{{ food.price }}</td>
-                            <td>{% if food.is_spicy %} 辣 {% else %}不辣
-                                {% endif %}</td>
-                            <td>{{ food.comment }}</td>
+                            <!--方法1--> <td><input type="radio" name="id" value="{{ r.id }}"></td>
+                            <!--方法2  <td><a href="/menu/?id={{ r.id }}"> menu </a></td> -->
+                            <!--方法3  <td><a href="/menu/{{ r.id }}/"> menu </a></td>--> -->
+                            <td>{{ r.name }}</td>
+                            <td>{{ r.phone_number }}</td>
+                            <td>{{ r.address }}</td>
+                            <td><a href="/comment/{{ r.id }}"> 評論 </a></td>
                         </tr>
                     {% endfor %}
                 </table>
-            {% else %}
-                <p>賣完了</p>
-            {% endif %}
+            <input type="submit" value="觀看 menu">
+            </form>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

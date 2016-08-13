@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Menu</title>
+    <title>Comments</title>
     # bootstrap -----
     <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <style>
         th { text-align: center; }
-        div.menus {
+        div.comments {
             text-align: center;
             padding: 40px 15px;
         }
@@ -40,33 +40,48 @@
     </nav>
     # ---------------
     <div class="container">
-        <div class="menus">
-        <p> 您現在的位置在 {{ path }}</p>
-            <h2>{{ restaurant.name }}的 Menu</h2>
-            {% if restaurant.food_set.all %}
-                <p>本餐廳共有 {{ restaurant.food_set.all|length }}道菜</p>
+        <div class="comments">
+            <h2>{{ r.name }}的評價</h2>
+            {% if r.comment_set.all %}
+                <p>目前共有 {{ r.comment_set.all|length }}條評價</p>
                 <table class="table">
                     <tr>
-                        <th>菜名</th>
-                        <th>價格</th>
-                        <th>辣不辣</th>
-                        <th>註解</th>
+                        <th>留言者</th>
+                        <th>時間</th>
+                        <th>評價</th>
                     </tr>
-                    {% for food in restaurant.food_set.all %}
+                    {% for c in r.comment_set.all %}
                         <tr>
-                            <td>{{ food.name }}</td>
-                            <td>{{ food.price }}</td>
-                            <td>{% if food.is_spicy %} 辣 {% else %}不辣
-                                {% endif %}</td>
-                            <td>{{ food.comment }}</td>
+                            <td>{{ c.visitor }}</td>
+                            <td>{{ c.date_time | date:"F j, Y" }}</td>
+                            <td>{{ c.content }}</td>
                         </tr>
                     {% endfor %}
                 </table>
             {% else %}
-                <p>賣完了</p>
+                <p>無評價</p>
             {% endif %}
         </div>
     </div>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <table class="table">
+            <tr>
+                <td><label for="visitor">留言者：</label></td>
+                <td><input id="visitor" type="text" name="visitor"></td>
+            </tr>
+            <tr>
+                <td><label for="email">電子信箱：</label></td>
+                <td><input id="email" type="text" name="email"></td>
+            </tr>
+            <tr>
+                <td><label for="content">評價：</label></td>
+                <td><textarea id="content" rows="10" cols="48" name="content"></textarea></td>
+            </tr>
+        </table>
+        <input type="submit" value="給予評價">
+    </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </body>
