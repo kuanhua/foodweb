@@ -14,6 +14,8 @@
             text-align: center;
             padding: 40px 15px;
         }
+
+
     </style>
     # ---------------
 </head>
@@ -61,26 +63,56 @@
             {% else %}
                 <p>無評價</p>
             {% endif %}
+
+ <!--
+            {% for e in errors %}
+                <p style="color:red;">{{ e }}</p>
+            {% endfor %}
+ -->
+            {% if f.errors %}
+                <p style="color:red;">請修正</p>
+            {% endif %}
         </div>
     </div>
 
     <form action="" method="post">
-        {% csrf_token %}
+        <div class="comments">
         <table class="table">
             <tr>
+                <th><label for="id_visitor">留言者：</label></th>
+                <td>{{ f.visitor }}</td>
+                <td>{{ f.visitor.errors }}</td>
+            </tr>
+            <tr>
+                <th><label for="id_email">電子信箱：</label></th>
+                <td>{{ f.email }}</td>
+                <td>{{ f.email.errors }}</td>
+            </tr>
+            <tr>
+                <th><label for="id_content">評價：</label></th>
+                <td>{{ f.content }}</td>
+                <td>{{ f.content.errors }}</td>
+            </tr>
+            <!--
+            {{ f.as_table }}
+            -->
+            <!--
+            <tr>
                 <td><label for="visitor">留言者：</label></td>
-                <td><input id="visitor" type="text" name="visitor"></td>
+                <td><input id="visitor" type="text" name="visitor" value="{{ visitor }}"></td>
             </tr>
             <tr>
                 <td><label for="email">電子信箱：</label></td>
-                <td><input id="email" type="text" name="email"></td>
+                <td><input id="email" type="text" name="email" value="{{ email }}"></td>
             </tr>
             <tr>
                 <td><label for="content">評價：</label></td>
-                <td><textarea id="content" rows="10" cols="48" name="content"></textarea></td>
+                <td><textarea id="content" rows="10" cols="48" name="content">{{ content }}</textarea></td>
             </tr>
+            -->
         </table>
         <input type="submit" value="給予評價">
+        </div>
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
