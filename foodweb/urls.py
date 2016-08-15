@@ -18,18 +18,14 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from views import welcome
-from restaurants.views import menu, list_restaurants, comment
+from restaurants.views import menu, list_restaurants, comment, set_c
 
 admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    ##對應restaurants_list.html裡的方法1,2
     url(r'^menu/', menu),
-    ##對應restaurants_list.html裡的方法3
-    # url(r'^menu/(\d{1,5})/',menu),
-
-    url(r'^welcome/',welcome),
+    url(r'^welcome/',set_c),
     url(r'^restaurants_list/',list_restaurants),
     url(r'^comment/(\d{1,5})/',comment),
 ]
