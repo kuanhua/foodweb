@@ -2,7 +2,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 ##from django.template.context_processors import csrf
-from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, HttpResponse
 from restaurants.models import Restaurant,  Comment
 from restaurants.forms import CommentForm
 from django.utils import timezone
@@ -74,4 +74,6 @@ def comment(request,restaurant_id):
             Comment.objects.create(visitor=visitor,email=email,content=content,date_time=date_time,restaurant=r)
             visitor,email,content=('','','')
 '''
+
+
 
