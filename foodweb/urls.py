@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from views import welcome, index, login, logout
+from foodweb.views import welcome, index, login, logout
 from restaurants.views import menu, list_restaurants, comment
 
 admin.autodiscover()

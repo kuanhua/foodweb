@@ -1,8 +1,10 @@
 #-*- coding: UTF-8 -*-
-from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.shortcuts import render_to_response,
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.sessions.models import Session
+from django.template import RequestContext
 from django.contrib import auth
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -31,7 +33,7 @@ def session_test(request):
     return HttpResponse(s_info)
 
 def login(request):
-    if request.is_authenticated():
+    if request.user.is_authenticated():
         return HttpResponseRedirect('/index/')
 
     username = request.POST.get('username', '')
@@ -43,7 +45,8 @@ def login(request):
         auth.login(request, user)
         return HttpResponseRedirect('/index/')
     else:
-        return render_to_response('login.html', RequestContext(request, locals())
+#        return render_to_response('login.html', RequestContext(request, locals()))
+        return render_to_string('login.html', request = request)
 
 def logout(request):
     auth.logout(request)

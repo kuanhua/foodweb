@@ -2,7 +2,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 ##from django.template.context_processors import csrf
-from django.shortcuts import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from restaurants.models import Restaurant,  Comment
 from restaurants.forms import CommentForm
 from django.utils import timezone

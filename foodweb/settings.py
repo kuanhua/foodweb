@@ -59,7 +59,8 @@ ROOT_URLCONF = 'foodweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'restaurants/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'foodweb/templates'),
+                 os.path.join(BASE_DIR, 'restaurants/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-SESSION_SERIALIZER = 'django.conttrib.sessions.serializers'+'.PickleSerializer'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers'+'.PickleSerializer'
 
 
 
