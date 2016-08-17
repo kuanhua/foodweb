@@ -2,7 +2,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 ##from django.template.context_processors import csrf
-from django.shortcuts import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from restaurants.models import Restaurant,  Comment
 from restaurants.forms import CommentForm
 from django.utils import timezone
@@ -75,14 +75,5 @@ def comment(request,restaurant_id):
             visitor,email,content=('','','')
 '''
 
-def set_c(request):
-    response = HttpResponse('Set your lucky_number as 8')
-    response.set_cookie('lucky_number',8)
-    return response
 
-def get_c(request):
-    if 'lucky_number' in request.COOKIES:
-        return HttpResponse('your lucky_number is {0}'.format(request.COOKIES['lucky_number']))
-    else:
-        return HttpResponse('No cookies.')
 
