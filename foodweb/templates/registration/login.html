@@ -5,11 +5,24 @@
     <title>Login</title>
 </head>
 <body>
+    <!--
     <form action="." method="post">
-        <label for="username">用戶名稱：</label>{% csrf_token %}
+        {% csrf_token %}
+
+        <!--
+        <label for="username">用戶名稱：</label>
         <input type="text" name="username" value="{{ username }}" id="username"> <br />
         <label for="password">用戶密碼：</label>
         <input type="password" name="password" value="" id="password"> <br />
+        <input type="submit" value="登入" />
+
+    </form>
+    -->
+    <form method="post"  action = "{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
         <input type="submit" value="登入" />
     </form>
 

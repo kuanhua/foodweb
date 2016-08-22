@@ -8,6 +8,6 @@ class CommentForm(forms.Form):
 
     def clean_content(self):
         content = self.cleaned_data['content']
-        if len(content) < 5:
-            raise forms.ValidationError('字數不足，5字以上')
+        if len(content) < 3:
+            raise forms.ValidationError('字數不足，3字以上')
         return content

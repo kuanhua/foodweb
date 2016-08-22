@@ -17,6 +17,7 @@
     </style>
     # ---------------
 </head>
+{% load staticfiles %}
 <body>
     # bootstrap -----
     <nav class="navbar navbar-inverse navbar-fixed-top"
@@ -42,6 +43,8 @@
     <div class="container">
         <div class="restaurants">
             <h2>餐廳列表</h2>
+
+        <p><img src="{% static 'img/logo.jpg' %}"></p>
             <!--方法23不要此行--> <form action="/menu/" method="get">
                 <table class="table">
                     <tr>
@@ -49,17 +52,21 @@
                         <th>店名</th>
                         <th>電話</th>
                         <th>地址</th>
+                        {% if perms.restaurants.can_comment %}
                         <th>評價</th>
+                        {% endif %}
                     </tr>
                     {% for r in restaurants %}
                         <tr>
                             <!--方法1--> <td><input type="radio" name="id" value="{{ r.id }}"></td>
                             <!--方法2  <td><a href="/menu/?id={{ r.id }}"> menu </a></td> -->
-                            <!--方法3  <td><a href="/menu/{{ r.id }}/"> menu </a></td>--> -->
+                            <!--方法3  <td><a href="/menu/{{ r.id }}/"> menu </a></td>-->
                             <td>{{ r.name }}</td>
                             <td>{{ r.phone_number }}</td>
                             <td>{{ r.address }}</td>
+                            {% if perms.restaurants.can_comment %}
                             <td><a href="/comment/{{ r.id }}"> 評論 </a></td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </table>

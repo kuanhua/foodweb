@@ -16,18 +16,33 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from foodweb.views import welcome, index, login, logout
-from restaurants.views import menu, list_restaurants, comment
+from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.views import login, logout
+# from views import index, welcome, register
+# from restaurants.views import menu, list_restaurants, comment
+from django.conf import settings
+import django.contrib.auth.views
+import views
+import restaurants.views
 
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^menu/', menu),
-    url(r'^welcome/', welcome),
-    url(r'^restaurants_list/', list_restaurants),
-    url(r'^comment/(\d{1,5})/', comment),
-    url(r'^accounts/login/$', login),
-    url(r'^accounts/logout/$', logout),
-    url(r'^index/$', index),
+    url(r'^admin/',             include(admin.site.urls)),
+    url(r'^menu/',              login_required(restaurants.views.menu)),
+    url(r'^restaurants_list/',  login_required(restaurants.views.list_restaurants)),
+    url(r'^comment/(\d{1,5})/', login_required(restaurants.views.comment)),
+    url(r'^login/',             django.contrib.auth.views.login),
+    url(r'^logout/',            django.contrib.auth.views.logout),
+    url(r'^accounts/login/',    django.contrib.auth.views.login),
+    url(r'^accounts/logout/',   django.contrib.auth.views.logout),
+    url(r'^index/',             views.index),
+    url(r'^welcome/',           views.welcome),
+    url(r'^accounts/register/', views.register),
+    url(r'^users_list/',         views.list_users),
 ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(r'^test/', views.test),
+    ]

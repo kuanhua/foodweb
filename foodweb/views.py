@@ -1,10 +1,11 @@
 #-*- coding: UTF-8 -*-
-from django.shortcuts import render_to_response,
+from django.shortcuts import render_to_response, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.sessions.models import Session
 from django.template import RequestContext
 from django.contrib import auth
-from django.template.loader import render_to_string
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -12,7 +13,8 @@ def welcome(request):
     if 'user_name' in request.GET and request.GET['user_name'] != '':
         return HttpResponse('Welcome!~' + request.GET['user_name'])
     else:
-        return render_to_response('welcome.html', locals())
+#        return render_to_response('welcome.html', locals())
+        return render(request, 'welcome.html')
 
 def use_session(request):
     request.session['lucky_number'] = 8
@@ -23,8 +25,8 @@ def use_session(request):
     return response
 
 def session_test(request):
-    sid = request.COOKIES['sessionid']
-    sid2 = request.session.session_key
+    sid = request.COOKIES['sessionid']  # session依附cookie
+    sid2 = request.session.session_key  # 純 session
     s = Session.objects.get(pk=sid)
     s_info = 'Session ID:'+sid+\
              '<br>SessionID2:'+sid2+\
@@ -45,8 +47,8 @@ def login(request):
         auth.login(request, user)
         return HttpResponseRedirect('/index/')
     else:
-#        return render_to_response('login.html', RequestContext(request, locals()))
-        return render_to_string('login.html', request = request)
+        return render_to_response('login.html', RequestContext(request, locals()))
+
 
 def logout(request):
     auth.logout(request)
@@ -54,3 +56,25 @@ def logout(request):
 
 def index(request):
     return render_to_response('index.html',RequestContext(request, locals()))
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            return HttpResponseRedirect('/accounts/login/')
+    else:
+        form = UserCreationForm()
+    return render_to_response('register.html',RequestContext(request,locals()))
+
+def test(request):
+    if 'user_name' in request.GET and request.GET['user_name'] != '':
+        return HttpResponse('Welcome!~' + request.GET['user_name'])
+    else:
+#        return render_to_response('welcome.html', locals())
+        return render(request, 'test.html')
+
+@login_required
+def list_users(request):
+    users = auth.models.User.objects.all()
+    return render(request, 'users_list.html', locals())
