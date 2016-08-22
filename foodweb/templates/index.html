@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Restaurant King</title>
-</head>
-<body>
-    <h2>美食點評</h2>
-    {% if request.user.is_authenticated %}
-        <p>
-            {{ request.user }} 歡迎您
-            <a href="/accounts/logout">登出</a>
-        </p>
-
-        <a href="/restaurants_list/">餐廳列表</a>
-    {% else %}
-        <p>您尚未登入<a href="/accounts/login/">登入</a></p>
-    {% endif %}
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %} 首頁 {% endblock %}
+{% block h2 %} 美味點評 {% endblock %}
+{% block content %}
+    <p>全台最大美味指南 </p>
+{% endblock %}

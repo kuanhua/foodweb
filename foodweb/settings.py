@@ -1,3 +1,4 @@
+#-*- coding: UTF-8 -*-
 """
 Django settings for foodweb project.
 
@@ -39,20 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'restaurants',
 ]
-
-MIDDLEWARE = [
+## 若有新增元件，要同步資料庫 $ python manage.py migrate  (django > 1.7 )
+MIDDLEWARE_CLASSES = [
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # add by Kuanhua
-    'django.middleware.locale.LocaleMiddleware',
-    #
+    'django.middleware.locale.LocaleMiddleware',    # add by Kuanhua
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-# 'django.middleware.csrf.CsrfViewMiddleware',
 
 ROOT_URLCONF = 'foodweb.urls'
 
@@ -125,9 +123,60 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+
+# https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-STATIC_URL
+# STATIC_URL
+# Default: None
+# URL to use when referring to static files located in STATIC_ROOT.
+# Example: "/static/" or "http://static.example.com/"
+# If not None, this will be used as the base path for asset definitions (the Media class) and the staticfiles app.
+# It must end in a slash if set to a non-empty value.
+# You may need to configure these files to be served in development and will definitely need to do so in production.
+
 STATIC_URL = '/static/'
 
+# https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-STATICFILES_DIRS
+# STATICFILES_DIRS
+# Default: []
+# This setting defines the additional locations the staticfiles app will traverse if the FileSystemFinder finder is enabled, e.g. if you use the collectstatic or findstatic management command or use the static file serving view.
+# This should be set to a list or tuple of strings that contain full paths to your additional files directory(ies) e.g.:
+#
+# STATICFILES_DIRS = (
+#     "/home/special.polls.com/polls/static",
+#     "/home/polls.com/polls/static",
+#     "/opt/webfiles/common",
+# )
+# Note that these paths should use Unix-style forward slashes, even on Windows (e.g. "C:/Users/user/mysite/extra_static_content").
+# Prefixes (optional)¶
+# In case you want to refer to files in one of the locations with an additional namespace, you can optionally provide a prefix as (prefix, path) tuples, e.g.:
+# STATICFILES_DIRS = (
+#     # ...
+#     ("downloads", "/opt/webfiles/stats"),
+# )
+# For example, assuming you have STATIC_URL set to '/static/', the collectstatic management command would collect the “stats” files in a 'downloads' subdirectory of STATIC_ROOT.
+# This would allow you to refer to the local file '/opt/webfiles/stats/polls_20101022.tar.gz' with '/static/downloads/polls_20101022.tar.gz' in your templates, e.g.:
+# <a href="{% static "downloads/polls_20101022.tar.gz" %}">
+
+STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
+)
+
+# https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-STATIC_ROOT
+# STATIC_ROOT
+# Default: None
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+# Example: "/var/www/example.com/static/"
+# If the staticfiles contrib app is enabled (default) the collectstatic management command will collect static files into this directory. See the howto on managing static files for more details about usage.
+# !!Warning
+# This should be an initially empty destination directory for collecting your static files from their permanent locations into one directory for ease of deployment; it is not a place to store your static files permanently. You should do that in directories that will be found by staticfiles’s finders, which by default, are 'static/' app sub-directories and any directories you include in STATICFILES_DIRS).
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'assets')
+
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers'+'.PickleSerializer'
+
+LOGIN_REDIRECT_URL = "/index/"
 
 
 
