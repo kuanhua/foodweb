@@ -1,24 +1,38 @@
 #-*- coding: UTF-8 -*-
 from django.template import RequestContext
-from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 from restaurants.models import Restaurant,  Comment
 from restaurants.forms import CommentForm
 from django.utils import timezone
 from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required, permission_required
 
+from django.views.generic.list import ListView
+from django.utils.decorators import method_decorator
 
+from django.views.generic.detail import DetailView
 
 # Create your views here.
 
+class MenuView(DetailView):
+
+    model = Restaurant
+    template_name = 'menu.html'
+    context_object_name = 'restaurant'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(MenuView, self).dispatch(request, *args, **kwargs)
+
+'''
 def menu(request):
     if 'id' in request.GET and request.GET['id'] != '':
         restaurant = Restaurant.objects.get(id=request.GET['id'])
         return render_to_response('menu.html', locals())
     else:
         return HttpResponseRedirect("/restaurants_list")
-
+'''
 
 '''
 方法2,3用此 method
@@ -31,6 +45,9 @@ def menu(request,id):
     else:
         return HttpResponseRedirect("/restaurants_list")
 '''
+
+'''
+@login_required
 def list_restaurants(request):
 #    if not request.user.is_authenticated():
 ##        return HttpResponseRedirect('/index/')
@@ -38,6 +55,16 @@ def list_restaurants(request):
     restaurants = Restaurant.objects.all()
     request.session['restaurants'] = restaurants
     return render_to_response('restaurants_list.html', locals())
+'''
+
+class RestaurantsView(ListView):
+    model = Restaurant
+    template_name = 'restaurants_list.html'
+    context_object_name = 'restaurants'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(RestaurantsView, self).dispatch(request, *args, **kwargs)
 
 @permission_required('restaurants.can_comment',)
 def comment(request, restaurant_id):

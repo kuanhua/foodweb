@@ -58,9 +58,9 @@
                     </tr>
                     {% for r in restaurants %}
                         <tr>
-                            <!--方法1--> <td><input type="radio" name="id" value="{{ r.id }}"></td>
-                            <!--方法2  <td><a href="/menu/?id={{ r.id }}"> menu </a></td> -->
-                            <!--方法3  <td><a href="/menu/{{ r.id }}/"> menu </a></td>-->
+                            <!--方法1 <td><input type="radio" name="id" value="{{ r.id }}"></td> -->
+                            <!--方法2  <td><a href="/menu/?id={{ r.id }}"> 菜單 </a></td> -->
+                            <!--方法3-->  <td><a href="/menu/{{ r.id }}/"> 菜單 </a></td>
                             <td>{{ r.name }}</td>
                             <td>{{ r.phone_number }}</td>
                             <td>{{ r.address }}</td>
