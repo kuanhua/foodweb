@@ -25,23 +25,29 @@ import django.contrib.auth.views
 import views
 import restaurants.views
 
+from django.views.generic.base import TemplateView
+
 admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/',             include(admin.site.urls)),
-    url(r'^menu/',              login_required(restaurants.views.menu)),
-    url(r'^restaurants_list/',  login_required(restaurants.views.list_restaurants)),
+    url(r'^menu/(?P<pk>\d+)/',  login_required(restaurants.views.MenuView.as_view())),
+    url(r'^restaurants_list/',  login_required(restaurants.views.RestaurantsView.as_view())),
     url(r'^comment/(\d{1,5})/', login_required(restaurants.views.comment)),
     url(r'^login/',             django.contrib.auth.views.login),
     url(r'^logout/',            django.contrib.auth.views.logout),
     url(r'^accounts/login/',    django.contrib.auth.views.login),
     url(r'^accounts/logout/',   django.contrib.auth.views.logout),
-    url(r'^index/',             views.index),
+    url(r'^index/',             TemplateView.as_view(template_name='index.html')),
     url(r'^welcome/',           views.welcome),
     url(r'^accounts/register/', views.register),
     url(r'^users_list/',         views.list_users),
 ]
-
+# url(r'^index/',             views.index),
+# url(r'index/',              views.IndexView.as_view()),
+# url(r'^index/',              TemplateView().as_view(template_name='index.html')),
+# url(r'^restaurants_list/',  login_required(restaurants.views.list_restaurants)),
+# url(r'^menu/',              login_required(restaurants.views.menu)),
 if settings.DEBUG:
     urlpatterns += [
         url(r'^test/', views.test),

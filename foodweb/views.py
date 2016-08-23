@@ -7,7 +7,23 @@ from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
+from django.views.generic.base import View, TemplateView
+from django.utils import timezone
+
 # Create your views here.
+
+class IndexView(TemplateView):
+    template_name = 'index.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        context['request'] = request
+        return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context =super(IndexView, self).get_context_data(**kwargs)
+        context['time'] = timezone.now()
+        return context
 
 def welcome(request):
     if 'user_name' in request.GET and request.GET['user_name'] != '':
@@ -54,8 +70,10 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/index/')
 
-def index(request):
-    return render_to_response('index.html',RequestContext(request, locals()))
+
+#def index(request):
+#    return render_to_response('index.html',RequestContext(request, locals()))
+
 
 def register(request):
     if request.method == "POST":
