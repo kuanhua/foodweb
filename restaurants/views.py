@@ -12,11 +12,11 @@ from django.views.generic.list import ListView
 from django.utils.decorators import method_decorator
 
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormView
 
 # Create your views here.
 
 class MenuView(DetailView):
-
     model = Restaurant
     template_name = 'menu.html'
     context_object_name = 'restaurant'
@@ -66,6 +66,7 @@ class RestaurantsView(ListView):
     def dispatch(self, request, *args, **kwargs):
         return super(RestaurantsView, self).dispatch(request, *args, **kwargs)
 
+'''
 @permission_required('restaurants.can_comment',)
 def comment(request, restaurant_id):
 
@@ -91,6 +92,27 @@ def comment(request, restaurant_id):
     else:
         f = CommentForm(initial={'content':'很美味'})
     return render_to_response('comments.html',RequestContext(request, locals()))
+'''
+
+class CommentView(FormView):
+    form_class = CommentForm
+    template_name = 'comments.html'
+    success_url = '/comment'
+    initial = {'content':u'很美味'}
+
+    def form_valid(self, form):
+        Comment.objects.create(
+            visitor = form.cleaned_data['visitor'],
+            email = form.cleaned_data['email'],
+            content = form.cleaned_data['content'],
+            date_time = timezone.localtime(timezone.now()),
+            restaurant = Restaurant.objects
+        )
+
+
+
+
+
 '''
 自行驗證方式
     errors = []
